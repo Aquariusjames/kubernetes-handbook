@@ -95,3 +95,39 @@ ip_vs_wrr
 ip_vs_sh
 ip_vs
 ```
+
+## Partition disk
+
+pattition /dev/xvda
+
+```bash
+fdisk /dev/xvda
+
+=> m
+
+=> p
+
+=> F
+
+=> n
+```
+
+partprobe
+
+```bash
+partprobe
+```
+
+## Create Logical Volume
+
+```bash
+# fdisk partition first
+pvcreate /dev/xvda3
+vgcreate cloud-native /dev/xvda3
+lvcreate -l 100%free -n metadata cloud-native
+mkfs.ext4 /dev/cloud-native/metadata
+mkdir -p /var/cloud-native/metadata
+mount /dev/cloud-native/metadata /var/cloud-native/metadata
+lvdisplay
+echo /dev/cloud-native/metadata /var/cloud-native/metadata ext4 defaults 0 0 >> /etc/fstab
+```

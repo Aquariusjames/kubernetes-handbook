@@ -33,7 +33,9 @@ This document is for indexing build highly available kubernetes cluster, based o
 7. [Install kubernetes dashboard](./k8sdashboard/README.md)
 8. [Install Rook-Ceph](./rook/README.md)
 
-## Build client haproxy
+## TODOS
 
-TODO:
-See haproxy>client folder README.md
+TODO: following module need to do
+
+1. Build client haproxy
+2. Deploy cert manager
