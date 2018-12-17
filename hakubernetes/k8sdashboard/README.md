@@ -36,3 +36,13 @@ subjects:
 ```bash
 kubectl create -f ./k8s-dashboard-clusteradmin-crb.yaml
 ```
+
+## Browsing
+
+Deploy kubernetes dashboard ingress
+
+```bash
+kubectl create -f ./kube-system-ingress.yaml
+```
+
+After you have installed ingress controller and deployed kubernetes dashboard ingress, you can browse dashboard with [https://devops-internalk8s.10010sh.cn:30443/dashboard/](https://devops-internalk8s.10010sh.cn:30443/dashboard/])

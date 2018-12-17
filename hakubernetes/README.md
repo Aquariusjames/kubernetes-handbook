@@ -29,6 +29,9 @@ This document is for indexing build highly available kubernetes cluster, based o
 3. [Install Kubernetes Components](./install_k8s_components.md)
 4. [Bootstraping Kubernetes](./bootstraping_k8s.md)
 5. [Install Helm](./helm/README.md)
+6. [Install ingress controller](./ingress-controller/README.md)
+7. [Install kubernetes dashboard](./k8sdashboard/README.md)
+8. [Install Rook-Ceph](./rook/README.md)
 
 ## Build client haproxy
 
