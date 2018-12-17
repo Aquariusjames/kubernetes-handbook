@@ -151,6 +151,8 @@ rm -rf /var/cloud-native/metadata/rook/*
 
 ### Ceph Dashboard
 
+[See more detals](https://rook.github.io/docs/rook/v0.9/ceph-dashboard.html)
+
 ```bash
 kubectl create -f ./rook-ceph-ingress.yaml
 ```
