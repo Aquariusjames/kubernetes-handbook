@@ -32,10 +32,13 @@ This document is for indexing build highly available kubernetes cluster, based o
 6. [Install ingress controller](./ingress-controller/README.md)
 7. [Install kubernetes dashboard](./k8sdashboard/README.md)
 8. [Install Rook-Ceph](./rook/README.md)
+9. [Install EFK](./efk/README.md)
+10. [Install Cert Manager](./certmanager/README.md)
 
 ## TODOS
 
 TODO: following module need to do
 
-1. Build client haproxy
-2. Deploy cert manager
+1. client haproxy
+2. cert manager, helm install --name cert-manager --namespace kube-system stable/cert-manager
+3. [Vault](https://www.vaultproject.io/), better by [operator](https://github.com/coreos/vault-operator)
