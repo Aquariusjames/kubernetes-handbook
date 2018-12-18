@@ -33,6 +33,7 @@ This document is for indexing build highly available kubernetes cluster, based o
 7. [Install kubernetes dashboard](./k8sdashboard/README.md)
 8. [Install Rook-Ceph](./rook/README.md)
 9. [Install EFK](./efk/README.md)
+10. [Install Cert Manager](./certmanager/README.md)
 
 ## TODOS
 
