@@ -50,6 +50,8 @@ kubectl create -f ./tiller-clusteradmin-crb.yaml
 
 ```bash
 helm init --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.11.0 --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts --service-account tiller
+# or use https://burdenbear.github.io/kube-charts-mirror/
+# see more details on https://github.com/BurdenBear/kube-charts-mirror
 ```
 
 ### Securing a Helm installation

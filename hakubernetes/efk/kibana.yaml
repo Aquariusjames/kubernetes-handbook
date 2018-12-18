@@ -1,0 +1,76 @@
+# Service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: efk
+  labels:
+    app: kibana
+    env: devops
+spec:
+  selector:
+    app: kibana
+  ports:
+  - protocol: "TCP"
+    port: 80
+    targetPort: 5601
+  type: ClusterIP
+
+# Kibana ConfigMap
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kibana
+  namespace: efk
+  labels:
+    app: kibana
+    env: devops
+data:
+  # kibana.yml is mounted into the Kibana container
+  # see https://github.com/elastic/kibana/blob/master/config/kibana.yml
+  # Kubernetes Ingress is used to route kibana-internalk8s.10010sh.cn
+  kibana.yml: |-
+    server.name: kibana-internalk8s.10010sh.cn
+    server.host: "0"
+    elasticsearch.url: http://elasticsearch:9200
+
+# Deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: efk
+  labels:
+    app: kibana
+    env: devops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+        env: devops
+    spec:
+      volumes:
+      - name: kibana-config-volume
+        configMap:
+          name: kibana
+      containers:
+      - name: kibana
+        image: docker.elastic.co/kibana/kibana-oss:6.2.4
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: kibana-config-volume
+          mountPath: /usr/share/kibana/config
+        env:
+        - name: CLUSTER_NAME
+          value: elasticsearch
+        ports:
+        - name: http
+          containerPort: 5601
