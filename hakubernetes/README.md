@@ -33,6 +33,7 @@ This document is for indexing build highly available kubernetes cluster, based o
 7. [Install kubernetes dashboard](./k8sdashboard/README.md)
 8. [Install Rook-Ceph](./rook/README.md)
 9. [Install EFK](./efk/README.md)
+10. [Install Prometheus](./prometheus/README.md)
 
 ## Optional
 
@@ -44,3 +45,4 @@ TODO: following module need to do
 
 1. client haproxy
 2. [Vault](https://www.vaultproject.io/), better by [operator](https://github.com/coreos/vault-operator)
+3. [Kubeapp](https://github.com/kubeapps/kubeapps/blob/master/docs/user/getting-started.md)
