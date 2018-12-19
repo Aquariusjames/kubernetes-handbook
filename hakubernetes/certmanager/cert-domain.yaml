@@ -1,0 +1,23 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: internalk8s-cn
+  namespace: kube-system
+spec:
+  secretName: internalk8s-cn-staging-tls
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: internalk8s.cn
+  dnsNames:
+  - kibana.internalk8s.cn
+  acme:
+    config:
+    - http01:
+        ingressClass: internal-nginx
+      domains:
+      - internalk8s.cn
+    # - http01:
+    #     ingress: my-ingress
+    #   domains:
+    #   - kibana.internalk8s.cn
