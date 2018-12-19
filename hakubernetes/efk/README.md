@@ -45,3 +45,13 @@ For testing
 ```bash
 kubectl port-forward pod/${cerebro_pod_name} 9000 -n efk
 ```
+
+## Deploy Ingress
+
+```bash
+kubectl create -f ingress-efk.yaml
+```
+
+### Optional Security
+
+Using Basic Auth, [see more details](https://imti.co/kibana-kubernetes/) on part `Basic Auth`
