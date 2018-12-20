@@ -141,6 +141,10 @@ spec:
         resources:
           limits:
             cpu: 1
+            memory: 2048Mi
+          requests:
+            cpu: 25m
+            memory: 1536Mi
         ports:
         - containerPort: 9300
           name: transport
@@ -222,6 +226,10 @@ spec:
         resources:
           limits:
             cpu: 1
+            memory: "1024Mi"
+          requests:
+            cpu: 25m
+            memory: "512Mi"
         ports:
         - containerPort: 9300
           name: transport
@@ -299,6 +307,10 @@ spec:
         resources:
           limits:
             cpu: 1
+            memory: "1024Mi"
+          requests:
+            cpu: 25m
+            memory: "512Mi"
         ports:
         - containerPort: 9200
           name: http

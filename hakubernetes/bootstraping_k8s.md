@@ -130,7 +130,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 ## Join Worker Node
 
 ```bash
-kubeadm join internalk8s.10010sh.cn:6443 --token u0afgu.br2vucmep0tx7pvz --discovery-token-ca-cert-hash sha256:f0011cd2643256f2828e8b191bc0bd58716d9ce559c9485a269508a3ee08fefc
+kubeadm join internalk8s.10010sh.cn:6443 --token 99kcq5.83n2uj2ohdzxovud --discovery-token-ca-cert-hash sha256:f0011cd2643256f2828e8b191bc0bd58716d9ce559c9485a269508a3ee08fefc
 ```
 
 ## Tear down
@@ -142,3 +142,13 @@ kubectl delete node <node name>
 
 kubeadm reset
 ```
+
+## Trouble Shooting
+
+### Recovery cluster with master full down
+
+```bash
+kubeadm init --ignore-preflight-errors=all --config=kubeadm-config.yaml
+```
+
+[See more details](https://labs.consol.de/kubernetes/2018/05/25/kubeadm-backup.html)

@@ -9,7 +9,6 @@ metadata:
 type: Opaque
 ---
 
-# Ingress for dashboard
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

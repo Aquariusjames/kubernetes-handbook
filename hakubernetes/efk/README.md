@@ -46,6 +46,12 @@ For testing
 kubectl port-forward pod/${cerebro_pod_name} 9000 -n efk
 ```
 
+### Upgrading When ES changed
+
+```bash
+helm upgrade es-admin stable/cerebro -f cerebro_values.yaml --namespace efk
+```
+
 ## Deploy Ingress
 
 ```bash
@@ -55,3 +61,7 @@ kubectl create -f ingress-efk.yaml
 ### Optional Security
 
 Using Basic Auth, [see more details](https://imti.co/kibana-kubernetes/) on part `Basic Auth`
+
+## TODOs
+
+1. 节点调整时观察到index丢失的情况，需后续跟进

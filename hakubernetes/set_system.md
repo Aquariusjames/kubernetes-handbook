@@ -131,3 +131,15 @@ mount /dev/cloud-native/metadata /var/cloud-native/metadata
 lvdisplay
 echo /dev/cloud-native/metadata /var/cloud-native/metadata ext4 defaults 0 0 >> /etc/fstab
 ```
+
+## Network
+
+```bash
+vim /etc/network/interfaces
+# gateway 192.168.137.1
+```
+
+### TODO
+
+TODO: Need Static IP?
+当前云平台服务器网卡重启会重置dns解析配置文件`/etc/resolv.conf`, 网络参数 ip 子网掩码 网关 配制成跟dhcp下发的一样 不然通不了

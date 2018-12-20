@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jaeger-ingress
+  namespace: open-tracing
+  annotations:
+    kubernetes.io/ingress.class: "internal-nginx"
+spec:
+  rules:
+  - host: jaeger-internalk8s.10010sh.cn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jaeger-tracing-query
+          servicePort: 80
