@@ -6,7 +6,7 @@ Change service-node-port-range to cover 80 and 443
 
 ```bash
 vim /etc/kubernetes/manifests/kube-apiserver.yaml
->  - --service-node-port-range=1-65535
+#  - --service-node-port-range=1-65535
 ```
 
 ### By Helm

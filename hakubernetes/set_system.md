@@ -9,9 +9,27 @@ resolvconf --enable-updates
 resolvconf -u
 ```
 
-## Time Zone
+## Time Date Control
 
-TODO:
+```bash
+timedatectl set-timezone "Asia/Shanghai"
+
+vim /etc/systemd/timesyncd.conf
+# Content
+NTP=server ntp1.aliyun.com 1.ubuntu.pool.ntp.org
+
+# systemd-timesyncd与ntp不能共存
+systemctl stop ntp
+systemctl disable ntp
+# Or
+systemctl stop ntpd
+systemctl disable ntpd
+
+# Optional
+# apt-get remove ntp
+
+systemctl restart systemd-timesyncd
+```
 
 ## Turn off swap
 
@@ -23,6 +41,9 @@ vim /etc/fstab
 # For example
 # swap was on /dev/xvda5 during installation
 # UUID=de5ff52f-ffb9-41b5-9061-aeb60a21dab7 none            swap    sw              0       0
+
+# 防止在内存紧张时kswapd0进程疯狂占用CPU
+sysctl vm.swappiness=0
 ```
 
 ## Verify the HOSTNAME, MAC address and product_uuid are unique for every node
@@ -134,12 +155,26 @@ echo /dev/cloud-native/metadata /var/cloud-native/metadata ext4 defaults 0 0 >> 
 
 ## Network
 
+For static IP and consistent default network interface
+
 ```bash
 vim /etc/network/interfaces
-# gateway 192.168.137.1
+
+# Content
+auto eth0
+iface eth0 inet static
+  address 192.168.138.175 # ip for 10 route
+  netmask 255.255.255.0
+  broadcast 192.168.138.255
+  dns-nameservers 1.2.4.8
+
+auto eth1
+iface eth1 inet static
+  address 192.168.137.103 # ip for 134 route, avaliable default when using static ip
+  netmask 255.255.255.0
+  broadcast 192.168.137.255
+  gateway 192.168.137.1
+  dns-nameservers 1.2.4.8
+
+up route add -net 10.0.0.0 netmask 255.0.0.0 gw 192.168.138.1 # add 10 route for booting
 ```
-
-### TODO
-
-TODO: Need Static IP?
-当前云平台服务器网卡重启会重置dns解析配置文件`/etc/resolv.conf`, 网络参数 ip 子网掩码 网关 配制成跟dhcp下发的一样 不然通不了

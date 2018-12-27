@@ -18,6 +18,11 @@ Use `Rook:v.09`
 helm repo add rook-beta https://charts.rook.io/beta
 
 helm install --name rook-ceph --namespace rook-ceph-system --version v0.9.0 rook-beta/rook-ceph
+
+# For upgrade
+helm upgrade rook-ceph rook-beta/rook-ceph --namespace rook-ceph-system --version v0.9.0
+# For delete
+helm delete rook-ceph --purge
 ```
 
 ```bash
@@ -33,7 +38,7 @@ kubectl --namespace rook-ceph-system get pods -l "app=rook-ceph-operator"
 `WARNING`: For test scenarios, if you delete a cluster and start a new cluster on the same hosts, the path used by `dataDirHostPath(/var/cloud-native/metadata/rook)` must be deleted. Otherwise, stale keys and other config will remain from the previous cluster and the new mons will fail to start. If this value is empty, each pod will get an ephemeral directory to store their config files that is tied to the lifetime of the pod running on that node
 
 ```bash
-kubectl create -f ./cephcluster.yaml
+kubectl apply -f ./cephcluster.yaml
 ```
 
 ##### Node updates
@@ -141,10 +146,6 @@ rm -rf ${dataDirHostPath}/*
 rm -rf /var/cloud-native/metadata/rook/*
 ```
 
-### Trouble Shooting
-
-[See more detals](https://rook.github.io/docs/rook/v0.8/ceph-teardown.html#troubleshooting)
-
 ### Rook Toolbox
 
 [See more deatils](https://rook.github.io/docs/rook/v0.8/toolbox.html)
@@ -165,3 +166,61 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep "pas
 
 TODO:
 [See more details](https://rook.github.io/docs/rook/v0.8/monitoring.html)
+
+### Operator Logic
+
+The operator will decide on the expected monmap during the Operator health check. The sequence would be:
+
+* Check if we have mon quorum.
+* If we have quorum
+  * If a mon is down, bring up a new one and remove the bad one
+  * If all mons are up, check again at the next health interval
+* If we don't have quorum
+  * Ensure the mon pods are in Running state.
+    * If any mon pods refuse to start, remove them from the monmap
+  * If the running pod IPs don't match the expected pod IPs
+    * Update the monmap that is stored in the configmap
+  * The operator stops the mon pods and then restarts them. See below for the behavior inside the Rook mon when restarted.
+  * Wait for the mons to form quorum again
+  * If we have fewer mons than expected (3)
+    * add new mons to restore redundancy
+
+When the Rook monitor pod starts, it will compare its local monmap to what the operator desires the monmap to be. If the monmap is not exactly as specified by the operator, the mon will refuse to start and wait for the operator to reconcile the issue and restart the mon.
+
+* If the local monmap does not exist, this is a new monitor
+  * Start the mon. No more checks are necessary.
+* Retrieve the desired monmap from the Rook API service. The API service gets the monmap from the configmap that the operator set.
+* If the local monmap has the same ip as the podIP for this monitor:
+  * If the podIP is the same as the desired podIP:
+    * Start the mon
+  * If the podIP is different than the desired podIP
+    * Write an error to the log and wait to be shutdown by the operator
+* If the local monmap has a different ip than the podIP:
+  * If the podIP is the same as desired monmap
+    * Inject the desired monmap using embedded ceph-mon
+    * Start the mon
+  * If the podIP is different from the desired monmap
+    * Write an error to the log and wait to be shutdown by the operator
+
+## Trouble Shooting
+
+[See more detals](https://rook.github.io/docs/rook/v0.8/ceph-teardown.html#troubleshooting)
+
+And
+
+[Common issues](https://github.com/rook/rook/blob/master/Documentation/common-issues.md)
+
+1. Check in ceph context
+    ```bash
+    kubectl -n rook-ceph-system exec -it $(kubectl -n rook-ceph-system get pods -l app=rook-ceph-operator -o jsonpath='{.items[0].metadata.name}') -- bash
+    ```
+2. If namespace have CephCluster object terminating is stucked, it's because the finalizer of CephCluster object is rook operator, so if you can edit CephCluster object, look for the finalizers element and delete `- cluster.rook.io`
+    ```bash
+    kubectl edit CephCluster rook-ceph -n rook-ceph
+    ```
+
+## Disaster recovery
+
+```bash
+kubectl -n rook-ceph-system delete deployment rook-ceph-operator
+```
