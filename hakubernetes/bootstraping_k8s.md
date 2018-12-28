@@ -141,6 +141,10 @@ kubectl drain <node name> --delete-local-data --force --ignore-daemonsets
 kubectl delete node <node name>
 
 kubeadm reset
+
+iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+
+ipvsadm --clear
 ```
 
 ## Trouble Shooting

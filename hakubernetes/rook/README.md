@@ -113,7 +113,9 @@ TODO: Need to explore the usage of shared file system
 
 ### Tear Down
 
-If you want to tear down the cluster and bring up a new one, be aware of the following resources that will need to be cleaned up:
+[See more details](https://rook.io/docs/rook/v0.9/ceph-teardown.html)
+
+If you want to **tear down the cluster and bring up a new one**, be aware of the following resources that will need to be cleaned up:
 
 * rook-ceph-system namespace: The Rook operator and agent created by operator.yaml
 * rook-ceph namespace: The Rook storage cluster created by cluster.yaml (the cluster CRD)
@@ -129,10 +131,10 @@ kubectl delete storageclass rook-ceph-block
 # If do filesystem tutorial
 kubectl delete -f https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/kube-registry.yaml
 
-kubectl -n rook-ceph delete cluster.ceph.rook.io rook-ceph
+kubectl -n rook-ceph delete cephcluster rook-ceph
 
 # Verify that the cluster CRD has been deleted before continuing to the next step.
-kubectl -n rook-ceph get cluster.ceph.rook.io
+kubectl -n rook-ceph get cephcluster
 
 helm delete rook-ceph --purge
 
@@ -204,10 +206,6 @@ When the Rook monitor pod starts, it will compare its local monmap to what the o
 
 ## Trouble Shooting
 
-[See more detals](https://rook.github.io/docs/rook/v0.8/ceph-teardown.html#troubleshooting)
-
-And
-
 [Common issues](https://github.com/rook/rook/blob/master/Documentation/common-issues.md)
 
 1. Check in ceph context
@@ -218,9 +216,64 @@ And
     ```bash
     kubectl edit CephCluster rook-ceph -n rook-ceph
     ```
+3. Node hangs after reboot.
+  
+    The node needs to be drained before reboot.After the successful drain, the node can be rebooted as usual.
+
+    Because kubectl drain command automatically marks the node as unschedulable (kubectl cordon effect), the node needs to be uncordoned once it’s back online.
+
+    ```bash
+    # Drain the node
+    kubectl drain <node-name> --ignore-daemonsets --delete-local-data
+
+    # Uncordon the node
+    kubectl uncordon <node-name>
+    ```
 
 ## Disaster recovery
 
+TODO: I have failed with testing disaster recovery
+
 ```bash
 kubectl -n rook-ceph-system delete deployment rook-ceph-operator
+
+kubectl -n rook-ceph exec -it rook-ceph-mon-f-7f5447c6f6-p5hxr bash
+
+cluster_namespace=rook-ceph
+good_mon_id=mon-d
+monmap_path=/tmp/monmap
+
+cluster_namespace=rook-ceph
+good_mon_id=mon-f
+monmap_path=/tmp/monmap
+
+# make sure the quorum lock file does not exist
+rm -f /var/lib/rook/${good_mon_id}/data/store.db/LOCK
+
+# extract the monmap to a file
+ceph-mon -i ${good_mon_id} --extract-monmap ${monmap_path} \
+  --cluster=${cluster_namespace} --mon-data=/var/lib/rook/${good_mon_id}/data \
+  --conf=/var/lib/rook/${good_mon_id}/${cluster_namespace}.config \
+  --keyring=/var/lib/rook/${good_mon_id}/keyring \
+  --monmap=/var/lib/rook/${good_mon_id}/monmap
+
+# review the contents of the monmap
+monmaptool --print /tmp/monmap
+
+# remove the bad mon(s) from the monmap
+monmaptool ${monmap_path} --rm <bad_mon>
+
+# in this example we remove mon0 and mon2:
+monmaptool ${monmap_path} --rm a
+monmaptool ${monmap_path} --rm c
+
+# inject the monmap into the good mon
+ceph-mon -i ${good_mon_id} --inject-monmap ${monmap_path} \
+  --cluster=${cluster_namespace} --mon-data=/var/lib/rook/${good_mon_id}/data \
+  --conf=/var/lib/rook/${good_mon_id}/${cluster_namespace}.config \
+  --keyring=/var/lib/rook/${good_mon_id}/keyring
+
+kubectl -n rook-ceph get pod -l mon=f
+kubectl -n rook-ceph delete pod -l mon=f
 ```
+

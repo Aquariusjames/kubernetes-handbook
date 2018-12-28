@@ -3,6 +3,11 @@ kind: ClusterConfiguration
 kubernetesVersion: v1.13.0
 networking:
   podSubnet: 10.244.0.0/16
+kubeProxy:
+  config:
+    featureGates:
+      SupportIPVSProxyMode: true
+    mode: ipvs
 apiServer:
   certSANs:
   - "internalk8s.10010sh.cn"
@@ -10,8 +15,3 @@ apiServer:
   - "10.6.201.176"
   - "10.6.201.177"
 controlPlaneEndpoint: "internalk8s.10010sh.cn:6443"
-kubeProxy:
-  config:
-    featureGates:
-      SupportIPVSProxyMode: true
-    mode: ipvs

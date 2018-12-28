@@ -53,6 +53,8 @@ helm install --name internal-porter \
 #     --set controller.service.type=NodePort \
 #     --set controller.service.nodePorts.http=30080 \
 #     --set controller.service.nodePorts.https=30443 \
+
+# helm delete internal-porter --purge
 ```
 
 ### By kubectl
