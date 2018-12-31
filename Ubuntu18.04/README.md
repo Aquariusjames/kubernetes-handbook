@@ -1,4 +1,4 @@
-# Handbook for Initating Ubuntu18.04
+# Handbook for Initiating Ubuntu18.04
 
 ## Disk
 
@@ -60,14 +60,41 @@ systemctl restart systemd-resolved.service
 
 ### Static IP
 
-TODO: What's meaning of blew routes:
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-169.254.169.254 192.168.137.13  255.255.255.255 UGH   100    0        0 eth1
-169.254.169.254 192.168.138.56  255.255.255.255 UGH   100    0        0 eth0
-
 ```bash
 vim /etc/netplan/50-cloud-init.yaml
+# network:
+#     ethernets:
+#         eth0:
+#             addresses: [${static_ip_0}/${prefixlength}]
+#             dhcp4: false
+#             routes:
+#             - to: 10.0.0.0/8
+#               via: ${gateway_0}
+#         eth1:
+#             addresses: [${static_ip_1}/${prefixlength}]
+#             gateway4: ${default_gateway_1}
+#             dhcp4: false
+#     version: 2
+
+# Or doing this like blew command
+# cat <<EOF >/etc/netplan/50-cloud-init.yaml
+# network:
+#     ethernets:
+#         eth0:
+#             addresses: [192.168.94.14/24]
+#             dhcp4: false
+#             routes:
+#             - to: 10.0.0.0/8
+#               via: 192.168.94.1
+#         eth1:
+#             addresses: [192.168.108.133/24]
+#             gateway4: 192.168.108.1
+#             dhcp4: false
+#     version: 2
+# EOF
 ```
+
+An Example
 
 ```yaml
 network:
@@ -85,8 +112,31 @@ network:
     version: 2
 ```
 
+Apply the configuration
+
 ```bash
 netplan apply
+```
+
+### Enable IPVS
+
+```bash
+# load module <module_name>
+modprobe -- ip_vs
+modprobe -- ip_vs_rr
+modprobe -- ip_vs_wrr
+modprobe -- ip_vs_sh
+modprobe -- nf_conntrack_ipv4
+
+# to check loaded modules, use
+lsmod | grep -e ipvs -e nf_conntrack_ipv4
+# or
+cut -f1 -d " "  /proc/modules | grep -e ip_vs -e nf_conntrack_ipv4
+
+apt update
+apt install -y ipset
+
+apt install -y ipvsadm
 ```
 
 ## System Paramters
@@ -95,12 +145,23 @@ netplan apply
 
 ```bash
 hostnamectl set-hostname ${$UNIQUE_HOSTNAME}
+vim /etc/cloud/cloud.cfg
+# FROM:
+# preserve_hostname: false
+# TO:
+# preserve_hostname: true
 
 vim /etc/hosts
-## add hosts like following
-## 127.0.0.1 master-xxx
-## or
-## 127.0.0.1 worker-xxx
+# add hosts like following
+# 127.0.0.1 master-xxx
+# or
+# 127.0.0.1 worker-xxx
+
+# For example
+# 127.0.0.1       localhost.localdomain   localhost  master-102
+# 192.168.137.102 devk8s
+# ::1             localhost6.localdomain6 localhost6 master-102
+
 ```
 
 ### Time Date Control
