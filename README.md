@@ -33,20 +33,29 @@ TODO: Lack of some required infrastructure in our cloud enviroment, including vi
 
 ## Operations on kubernetes cluster
 
+### Application manage tool
+
+1. [Deploy helm]()
+
 ### Storage provider
 
 1. [Deploy rook ceph in kubernetes cluster](./rook/README.md)
-2. TODO: Gluster
+2. TODO: Gluster(not required)
 
 ### Infrastructure of operating and monitoring
 
-1. [Helm]()
-2. [EFK]()
-3. [Prometheus]()
-4. [Ingress controller]()
-5. [Kubernetes dashboard]()
-6. Optional: [Certificates manager]()
+1. [EFK for logging]()
+2. [Prometheus for metrics]()
+3. [Ingress controller]()
+4. [Kubernetes dashboard]()
+5. Optional: [Certificates manager]()
 
 ### Microservice components
 
 1. [Jaeger]()
+
+## Operations of cluster
+
+### Modify node
+
+### Backup
