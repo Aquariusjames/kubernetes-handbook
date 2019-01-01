@@ -165,7 +165,7 @@ kubeadm join devk8s:6443 --token ${created_token} --discovery-token-ca-cert-hash
 ### Remove worker node
 
 ```bash
-kubectl drain $NODENAME
+kubectl drain $NODENAME --ignore-daemonsets --delete-local-data
 
 # Make the node schedulable again:
 # kubectl uncordon $NODENAME

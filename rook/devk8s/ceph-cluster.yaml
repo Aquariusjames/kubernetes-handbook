@@ -155,26 +155,29 @@ spec:
   cephVersion:
     # For the latest ceph images, see https://hub.docker.com/r/ceph/ceph/tags
     image: ceph/ceph:v13.2.2-20181023
-  dataDirHostPath: /var/cloud-native/metadata/rook
+  dataDirHostPath: /var/lib/rook
   dashboard:
     enabled: true
     # urlPrefix: /ceph-dashboard
   mon:
     count: 3
-    allowMultiplePerNode: false
+    allowMultiplePerNode: true
   storage:
     useAllNodes: false
     useAllDevices: false
     nodes:
-      - name: "master-103"
+      - name: "worker-103"
         devices:
         - name: "xvde"
-      - name: "master-104"
+      - name: "worker-104"
         devices:
         - name: "xvde"
-      - name: "master-105"
+      - name: "worker-105"
         devices:
         - name: "xvde"
+      # - name: "worker-133"
+      #   devices:
+      #   - name: "xvde"
     # deviceFilter: xvde
     # config:
       # databaseSizeMB: "1024"
