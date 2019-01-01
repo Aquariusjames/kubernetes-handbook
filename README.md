@@ -35,7 +35,7 @@ TODO: Lack of some required infrastructure in our cloud enviroment, including vi
 
 ### Application manage tool
 
-1. [Deploy helm]()
+1. [Deploy helm](./helm/README.md)
 
 ### Storage provider
 

@@ -1,4 +1,4 @@
-# Handbook for Initiating Ubuntu18.04
+# Handbook for Initializing Ubuntu18.04
 
 ## Disk
 
