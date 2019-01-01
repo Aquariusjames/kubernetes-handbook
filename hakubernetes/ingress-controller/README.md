@@ -21,6 +21,8 @@ helm install --name public-porter \
     --set controller.service.type=NodePort \
     --set controller.service.nodePorts.http=80 \
     --set controller.service.nodePorts.https=443 \
+    --set controller.image.repository=registry.cn-hangzhou.aliyuncs.com/google_containers/nginx-ingress-controller \
+    --set defaultBackend.image.repository=registry.cn-hangzhou.aliyuncs.com/google_containers/defaultbackend \
     stable/nginx-ingress
 
 # helm upgrade public-porter stable/nginx-ingress \
@@ -30,6 +32,8 @@ helm install --name public-porter \
 #     --set controller.service.type=NodePort \
 #     --set controller.service.nodePorts.http=80 \
 #     --set controller.service.nodePorts.https=443 \
+#     --set controller.image.repository=registry.cn-hangzhou.aliyuncs.com/google_containers/nginx-ingress-controller \
+#     --set defaultBackend.image.repository=registry.cn-hangzhou.aliyuncs.com/google_containers/defaultbackend \
 
 # helm delete public-porter --purge
 ```
@@ -44,6 +48,8 @@ helm install --name internal-porter \
     --set controller.service.type=NodePort \
     --set controller.service.nodePorts.http=30080 \
     --set controller.service.nodePorts.https=30443 \
+    --set controller.image.repository=registry.cn-hangzhou.aliyuncs.com/google_containers/nginx-ingress-controller \
+    --set defaultBackend.image.repository=registry.cn-hangzhou.aliyuncs.com/google_containers/defaultbackend \
     stable/nginx-ingress
 
 # helm upgrade internal-porter stable/nginx-ingress \
@@ -53,6 +59,8 @@ helm install --name internal-porter \
 #     --set controller.service.type=NodePort \
 #     --set controller.service.nodePorts.http=30080 \
 #     --set controller.service.nodePorts.https=30443 \
+#     --set controller.image.repository=registry.cn-hangzhou.aliyuncs.com/google_containers/nginx-ingress-controller \
+#     --set defaultBackend.image.repository=registry.cn-hangzhou.aliyuncs.com/google_containers/defaultbackend \
 
 # helm delete internal-porter --purge
 ```

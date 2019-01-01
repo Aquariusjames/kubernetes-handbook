@@ -160,6 +160,8 @@ rm -rf /var/cloud-native/metadata/rook/*
 kubectl create -f ./rook-ceph-ingress.yaml
 ```
 
+admin/PHch6Mr5s7
+
 ```bash
 kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep "password:" | awk '{print $2}' | base64 --decode
 ```
@@ -225,6 +227,8 @@ When the Rook monitor pod starts, it will compare its local monmap to what the o
     ```bash
     # Drain the node
     kubectl drain <node-name> --ignore-daemonsets --delete-local-data
+
+    reboot
 
     # Uncordon the node
     kubectl uncordon <node-name>

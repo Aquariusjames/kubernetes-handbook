@@ -157,7 +157,7 @@ up route add -net 10.0.0.0 netmask 255.0.0.0 gw 192.168.138.1 # add 10 route for
 
 ## Partition disk
 
-pattition /dev/xvda
+partition /dev/xvda
 
 ```bash
 fdisk /dev/xvda
