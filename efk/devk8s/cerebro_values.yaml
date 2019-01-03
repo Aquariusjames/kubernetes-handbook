@@ -1,0 +1,4 @@
+config:
+  hosts:
+    - host: http://es4log-elasticsearch-client:9200
+      name: es4log

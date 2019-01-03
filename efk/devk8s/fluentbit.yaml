@@ -76,7 +76,7 @@ data:
 
   output-elasticsearch.conf: |
     [OUTPUT]
-        Name            es
+        Name            es4log
         Match           *
         Host            ${FLUENT_ELASTICSEARCH_HOST}
         Port            ${FLUENT_ELASTICSEARCH_PORT}
@@ -157,13 +157,13 @@ spec:
     spec:
       containers:
       - name: fluent-bit
-        image: fluent/fluent-bit:1.0.0
+        image: fluent/fluent-bit:1.0.1
         imagePullPolicy: Always
         ports:
           - containerPort: 2020
         env:
         - name: FLUENT_ELASTICSEARCH_HOST
-          value: "elasticsearch"
+          value: "es4log-elasticsearch-client"
         - name: FLUENT_ELASTICSEARCH_PORT
           value: "9200"
         volumeMounts:

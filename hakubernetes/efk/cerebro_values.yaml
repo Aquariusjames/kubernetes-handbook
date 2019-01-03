@@ -1,4 +1,0 @@
-config:
-  hosts:
-    - host: http://elasticsearch:9200
-      name:  efk-elasticsearch

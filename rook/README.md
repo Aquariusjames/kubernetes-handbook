@@ -15,12 +15,12 @@ TODO:Following options needs to be think!!!!
 Use `Rook:v.09`
 
 ```bash
-helm repo add rook-beta https://charts.rook.io/beta
+helm repo add rook-stable https://charts.rook.io/stable
 
-helm install --name rook-ceph --namespace rook-ceph-system --version v0.9.0 rook-beta/rook-ceph
+helm install --name rook-ceph --namespace rook-ceph-system --version v0.9.1 rook-stable/rook-ceph
 
 # For upgrade
-# helm upgrade rook-ceph rook-beta/rook-ceph --namespace rook-ceph-system --version v0.9.0
+# helm upgrade rook-ceph rook-stable/rook-ceph --namespace rook-ceph-system --version v0.9.1
 # For delete
 # helm delete rook-ceph --purge
 ```
@@ -130,9 +130,9 @@ kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-t
 
 ### Ceph Dashboard
 
-```bash
+<!-- ```bash
 kubectl port-forward svc/rook-ceph-mgr-dashboard -n rook-ceph 8443
-```
+``` -->
 
 `Prerequisites`: Ingress Controller has been installed
 
