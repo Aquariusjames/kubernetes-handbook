@@ -33,6 +33,10 @@ TODO: Lack of some required infrastructure in our cloud enviroment, including vi
 
 ## Operations on kubernetes cluster
 
+### User management
+
+1. [RBAC](./rbac/README.md)
+
 ### Application manage tool
 
 1. [Deploy helm](./helm/README.md)
@@ -44,7 +48,7 @@ TODO: Lack of some required infrastructure in our cloud enviroment, including vi
 
 ### Infrastructure of operating and monitoring
 
-1. [EFK for logging]()
+1. [EFK for logging](./efk/README.md)
 2. [Prometheus for metrics]()
 3. [Ingress controller]()
 4. [Kubernetes dashboard]()
