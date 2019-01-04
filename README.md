@@ -37,7 +37,7 @@ TODO: Lack of some required infrastructure in our cloud enviroment, including vi
 
 1. [RBAC](./rbac/README.md)
 
-### Application manage tool
+### Application management tool
 
 1. [Deploy helm](./helm/README.md)
 

@@ -108,7 +108,7 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/bc79dd1505b0c8
 ## Joining worker node
 
 ```bash
-kubeadm join devk8s:6443 --token ovzobs.662lwpm3dubrur8g --discovery-token-ca-cert-hash sha256:fd7312a80e1c0d0b3fd2f54221c3fe49cecf945672b5220207615c43c238fc5d
+kubeadm join devk8s:6443 --token px00zp.u9rwoo32fi96w6uc --discovery-token-ca-cert-hash sha256:fd7312a80e1c0d0b3fd2f54221c3fe49cecf945672b5220207615c43c238fc5d
 ```
 
 If you wanted explict role label for worker node, you can add label for worker node on master node by kubectl

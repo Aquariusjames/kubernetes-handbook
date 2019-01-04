@@ -160,7 +160,7 @@ vim /etc/hosts
 # For example
 # 127.0.0.1       localhost.localdomain   localhost  master-102
 # 192.168.137.102 devk8s
-# ::1             localhost6.localdomain6 localhost6 master-102
+# ::1             localhost6.localdomain6 localhost6 master-1026
 
 ```
 
@@ -195,5 +195,6 @@ vim /etc/sysctl.conf
 # net.ipv4.conf.lo.arp_notify = 1
 # vm.swappiness = 0
 
-# sysctl -p
+
+# [IGNORE]sysctl -p
 ```

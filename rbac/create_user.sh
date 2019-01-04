@@ -10,31 +10,37 @@ echo =====================================================================
 echo 1. Please input USERNAME:
 read USERNAME
 echo "[INFO]username is ${USERNAME:?"USERNAME must not be null"}"
+echo =====================================================================
 
 # 组名
 echo 2. Please input GROUPNAME:
 read GROUPNAME
 echo "[INFO]groupname is ${GROUPNAME:?"GROUPNAME must not be null"}"
+echo =====================================================================
 
 # 集群名
 echo 3. Please input CLUSTERNAME:
 read CLUSTERNAME
 echo "[INFO]clustername is ${CLUSTERNAME:?"CLUSTERNAME must not be null"}"
+echo =====================================================================
 
 # 命名空间
 echo 4. Please input NAMESAPCE:
 read NAMESAPCE
 echo "[INFO]namespace is ${NAMESAPCE:?"NAMESAPCE must not be null"}"
+echo =====================================================================
 
 # 角色
 echo 5. Please input ROLE, defalt is ClusterRole \'edit\', options are \'cluster-admin\',\'admin\',\'edit\',\'view\' or other customed role object:
 read ROLE
 echo "[INFO]role is ${ROLE:=edit}"
+echo =====================================================================
 
 # 有效期
 echo 6. Please input VALIDY, default is \'30 days\':
 read VALIDY
 echo "[INFO]validy is ${VALIDY:=30} days"
+echo =====================================================================
 
 # 生成用户私钥
 openssl genrsa -out ./user_certificates/${USERNAME}-${CLUSTERNAME}.key 2048
@@ -74,6 +80,7 @@ else
     echo "[ERROR]openssl x509 -req for ${USERNAME} unsuccessfully"
     exit 1
 fi
+echo =====================================================================
 
 echo "[INFO]Begin to create role binding for user:${USERNAME} with namespace:${NAMESAPCE} and role:${ROLE}"
 
@@ -109,6 +116,7 @@ else
     echo "[ERROR]kubectl create RoleBinding for user:${USERNAME} with namespace:${NAMESAPCE} and role:${ROLE} unsuccessfully"
     exit 1
 fi
+echo =====================================================================
 
 # 获取指定集群于办公网下的IP
 CLUSTERNAME="devk8s"
@@ -163,7 +171,9 @@ else
     echo "[ERROR]kubectl config set-context for user:${USERNAME} unsuccessfully"
     exit 1
 fi
+echo =====================================================================
 
 mv ${KUBECONFIG_FILE} ./user_configs/
 
 echo "[INFO]The creatation of user:${USERNAME}:${ROLE} on cluster:${CLUSTERNAME}:${NAMESAPCE} is completed "
+echo =====================================================================

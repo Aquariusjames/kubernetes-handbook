@@ -175,9 +175,9 @@ spec:
       - name: "worker-105"
         devices:
         - name: "xvde"
-      # - name: "worker-133"
-      #   devices:
-      #   - name: "xvde"
+      - name: "worker-134"
+        devices:
+        - name: "xvde"
     # deviceFilter: xvde
     # config:
       # databaseSizeMB: "1024"

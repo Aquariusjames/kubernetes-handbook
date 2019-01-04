@@ -1,0 +1,24 @@
+prometheusOperator:
+  hyperkubeImage:
+    repository: 15216779314/hyperkube
+    tag: v1.12.1
+    pullPolicy: IfNotPresent
+
+## Deploy a Prometheus instance
+##
+prometheus:
+
+  prometheusSpec:
+
+    ## Prometheus StorageSpec for persistent data
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/storage.md
+    ##
+    storageSpec:
+      volumeClaimTemplate:
+       spec:
+         storageClassName: rook-ceph-block
+         accessModes: ["ReadWriteOnce"]
+         resources:
+           requests:
+             storage: 10Gi
+       selector: {}
