@@ -87,3 +87,20 @@ kubectl create secret tls tls-secret --key tls.key --cert tls.crt
 2. set annotations: kubernetes.io/ingress.class: "internal-nginx"
 
 [See more details](https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/multiple-ingress.md)
+
+
+```yaml
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  hosts:
+    - $RELEASE_HOSTNAME
+  tls:
+    - secretName: $RELEASE_NAME-tls
+      hosts:
+        - $RELEASE_HOSTNAME
+```

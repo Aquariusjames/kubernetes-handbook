@@ -2,12 +2,20 @@
 
 ## Install Prometheus Operator
 
+[See more details](https://github.com/helm/charts/tree/master/stable/prometheus-operator)
+
 ```bash
 kubectl create namespace metrics
 
 helm install --name monitor --namespace metrics \
 -f prometheus-operator-values.yaml \
 stable/prometheus-operator
+```
+
+For accessing test
+
+```bash
+kubectl port-forward svc/monitor-grafana -n metrics 8181:80
 ```
 
 Admin account/password to log into the grafana UI: admin/prom-operator

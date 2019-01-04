@@ -49,9 +49,9 @@ TODO: Lack of some required infrastructure in our cloud enviroment, including vi
 ### Infrastructure of operating and monitoring
 
 1. [EFK for logging](./efk/README.md)
-2. [Prometheus for metrics]()
-3. [Ingress controller]()
-4. [Kubernetes dashboard]()
+2. [Prometheus for metrics](./metrics/README.md)
+3. [Kubernetes dashboard]()
+4. [Ingress controller]()
 5. Optional: [Certificates manager]()
 
 ### Microservice components
