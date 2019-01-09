@@ -72,3 +72,25 @@ helm repo add stable https://burdenbear.github.io/kube-charts-mirror/
 
 TODO:
 [See More Details](https://docs.helm.sh/using_helm/#securing-your-helm-installation)
+
+## Helm for tenant
+
+### Create service account by admin
+
+Use appropriate kubernetes context
+
+```bash
+./create_sa.sh tiller ${NAMESPACE}
+```
+
+### Install helm tiller by tenant
+
+```bash
+helm init --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.12.1 --stable-repo-url https://burdenbear.github.io/kube-charts-mirror/ --service-account tiller --tiller-namespace ${NAMESPACE}
+```
+
+For using case
+
+```bash
+helm install --namespace stg stable/nginx --tiller-namespace stg
+```
