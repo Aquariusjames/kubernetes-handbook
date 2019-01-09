@@ -50,8 +50,8 @@ TODO: Lack of some required infrastructure in our cloud enviroment, including vi
 
 1. [EFK for logging](./efk/README.md)
 2. [Prometheus for metrics](./metrics/README.md)
-3. [Kubernetes dashboard]()
-4. [Ingress controller]()
+3. [Kubernetes dashboard](./k8sdashboard/README.md)
+4. [Ingress controller](./ingress-controller/README.md)
 5. Optional: [Certificates manager]()
 
 ### Microservice components
