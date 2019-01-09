@@ -1,17 +1,15 @@
-# Ingress controller handbook
+# Handbook for ingress controller
 
 ## Install Ingress-Nginx
 
-Change service-node-port-range to cover 80 and 443
+Change service-node-port-range to cover 80 and 443 on master node
 
 ```bash
 vim /etc/kubernetes/manifests/kube-apiserver.yaml
 #  - --service-node-port-range=1-65535
 ```
 
-### By Helm
-
-For Public traffic
+### Public traffic
 
 ```bash
 helm install --name public-porter \
@@ -38,7 +36,7 @@ helm install --name public-porter \
 # helm delete public-porter --purge
 ```
 
-For Internal traffic
+### Internal traffic
 
 ```bash
 helm install --name internal-porter \
@@ -71,6 +69,14 @@ helm install --name internal-porter \
 
 ## Ingress Resource
 
+### Internal ingresses
+
+Open all service for operator by internal ingress controller
+
+```bash
+kubectl apply -f devk8s-ingress.yaml
+```
+
 ### Examples
 
 See ingresses folder.
@@ -87,7 +93,6 @@ kubectl create secret tls tls-secret --key tls.key --cert tls.crt
 2. set annotations: kubernetes.io/ingress.class: "internal-nginx"
 
 [See more details](https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/multiple-ingress.md)
-
 
 ```yaml
 ingress:
